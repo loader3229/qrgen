@@ -41,7 +41,7 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "qrgen",
+            "command": "python test.py",
             "problemMatcher": [],
             "group": {
                 "kind": "test",
@@ -54,7 +54,7 @@
             "command": "bash",
             "args": [
                 "-c",
-                "./qrgen.bin"
+                "\"python3 test.py\""
             ],
             "problemMatcher": [],
             "group": {
