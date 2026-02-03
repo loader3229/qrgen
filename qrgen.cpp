@@ -14,7 +14,7 @@ char c[10000],d[1000000];
 HANDLE handle;
 #endif
 int b[1000][1000];
-int charlimit[41] = {0,
+unsigned int charlimit[41] = {0,
     17,32,53,78,106,134,154,192, // Versions 1-8
     230,271,321,367,425,458,520,586, // Versions 9-16
     644,718,792,858,929,1003,1091,1171, // Versions 17-24
