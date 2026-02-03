@@ -10,6 +10,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: sudo apt-get update && sudo apt install libzbar0
       - name: Install python dependencies
@@ -21,6 +22,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install python dependencies
         run: pip install pyzbar pillow numpy
       - name: Build
