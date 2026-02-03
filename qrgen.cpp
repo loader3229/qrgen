@@ -455,6 +455,7 @@ int main(){
         }
         fillType=1-fillType;
     }
+    cout<<index<<endl;
     #ifdef _WIN32
     if(output_mode==0){
         cout<<endl<<endl;

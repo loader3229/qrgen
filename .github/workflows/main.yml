@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt install libzbar0
+      - name: Install python dependencies
+        run: pip install pyzbar pillow numpy
+      - name: Build
+        run: g++ qrgen.cpp -Wall -Wextra -o qrgen.bin
+      - name: Test
+        run: python test.py
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Install python dependencies
+        run: pip install pyzbar pillow numpy
+      - name: Build
+        run: g++ qrgen.cpp -Wall -Wextra -o qrgen.exe
+      - name: Test
+        run: python test.py
