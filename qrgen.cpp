@@ -1,10 +1,18 @@
+// 这是由loader3229编写的C++二维码（QR）生成器。支持版本1-40，掩码格式0-7。生成的二维码固定为L级纠错等级。
+
 #include <iostream>
+#include <fstream>
+#include <cstring>
+#ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
+#endif
 #include <cstdlib>
 using namespace std;
 char c[10000],d[1000000];
+#ifdef _WIN32
 HANDLE handle;
+#endif
 int b[1000][1000];
 int charlimit[41] = {0,
     17,32,53,78,106,134,154,192, // Versions 1-8
@@ -243,19 +251,36 @@ int main(){
             tmp=tmp^285;
         }
     }
+    int output_mode=0;
+    #ifdef _WIN32
     system("chcp 65001");
     system("color f0");
+    system("cls");
     handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    cout<<"二维码生成器 by loader3229"<<endl;
-    cout<<"请输入二维码版本号（已支持1-10，测试性支持11-40）：";
+    cout<<"C++ 二维码生成器 by loader3229"<<endl;
+    cout<<"现在正在Windows系统下，可以直接在Windows控制台输出黑白二维码。您也可以用01矩阵的形式输出二维码。"<<endl;
+    cout<<"请输入输出模式（0：Windows控制台直接输出，1：01矩阵输出到控制台，2：01矩阵输出到qrcode.txt）：";
+    cin>>output_mode;
+    if(output_mode<0||output_mode>2){
+        cout<<"输出模式错误！"<<endl;
+        return 1;
+    }
+    #else
+    cout<<"C++ 二维码生成器 by loader3229"<<endl;
+    cout<<"现在不在Windows系统下，只能用01矩阵的形式输出二维码。"<<endl;
+    cout<<"请输入输出模式（1：01矩阵输出到控制台，2：01矩阵输出到qrcode.txt）：";
+    cin>>output_mode;
+    if(output_mode<1||output_mode>2){
+        cout<<"输出模式错误！"<<endl;
+        return 1;
+    }
+    #endif
+    cout<<"请输入二维码版本号（1-40）：";
     int version;
     cin>>version;
     if(version<1||version>40){
         cout<<"版本号错误！"<<endl;
         return 1;
-    }
-    if(version>10){
-        cout<<"警告：版本号大于10，可能会导致错误！"<<endl;
     }
     // Init Matrix
     int size=version*4+17;
@@ -430,24 +455,47 @@ int main(){
         }
         fillType=1-fillType;
     }
-    cout<<index;
-    cout<<endl<<endl;
-    for(int j=0;j<size;j++){
-        cout<<"    ";
-        for(int k=0;k<size;k++){
-            if(b[j][k]){
-                SetConsoleTextAttribute(handle,15);
-            }else{
+    #ifdef _WIN32
+    if(output_mode==0){
+        cout<<endl<<endl;
+        for(int j=0;j<size;j++){
+            cout<<"    ";
+            for(int k=0;k<size;k++){
+                if(b[j][k]){
+                    SetConsoleTextAttribute(handle,15);
+                }else{
+                    SetConsoleTextAttribute(handle,240);
+                }
+                cout<<"  ";
                 SetConsoleTextAttribute(handle,240);
+                if(version<5)Sleep(10-version*2);
             }
-            cout<<"  ";
             SetConsoleTextAttribute(handle,240);
-            if(version<5)Sleep(10-version*2);
+            cout<<endl;
         }
-        SetConsoleTextAttribute(handle,240);
-        cout<<endl;
+        cout<<endl<<endl;
+        system("pause");
+    }else
+    #endif
+    if(output_mode==1){
+        cout<<"正在用01矩阵的形式输出二维码，0为白色，1为黑色。"<<endl;
+        for(int j=0;j<size;j++){
+            for(int k=0;k<size;k++){
+                cout<<b[j][k];
+            }
+            cout<<endl;
+        }
+        cout<<endl<<endl;
+    }else if(output_mode==2){
+        cout<<"正在用01矩阵的形式输出二维码到qrcode.txt，0为白色，1为黑色。"<<endl;
+        ofstream fout("qrcode.txt");
+        for(int j=0;j<size;j++){
+            for(int k=0;k<size;k++){
+                fout<<b[j][k];
+            }
+            fout<<endl;
+        }
+        fout.close();
     }
-    cout<<endl<<endl;
-    system("pause");
     return 0;
 }

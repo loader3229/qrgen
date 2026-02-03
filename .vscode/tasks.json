@@ -20,6 +20,25 @@
             }
         },
         {
+            "label": "build-linux",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "\"g++",
+                "-o",
+                "qrgen.bin",
+                "qrgen.cpp",
+                "-g3",
+                "\""
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
             "label": "test",
             "type": "shell",
             "command": "qrgen",
@@ -27,6 +46,20 @@
             "group": {
                 "kind": "test",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "test-linux",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "./qrgen.bin"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": false
             }
         }
     ]
