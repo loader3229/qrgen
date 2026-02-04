@@ -17,10 +17,8 @@ def decode_qr(str):
     """
     qr_matrix = []
     str_split = str.split('\n')
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
+    for i in range(0,10):
+        qr_matrix.append([0] * (5*len(str_split[0]) + 20))
     for i in str_split:
         if len(i) == 0:
             continue
@@ -29,12 +27,16 @@ def decode_qr(str):
         for j in i:
             qr_row.append(int(j))
             qr_row.append(int(j))
+            qr_row.append(int(j))
+            qr_row.append(int(j))
+            qr_row.append(int(j))
         qr_matrix.append(qr_row)
         qr_matrix.append(qr_row)
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
-    qr_matrix.append([0] * (2*len(str_split[0]) + 8))
+        qr_matrix.append(qr_row)
+        qr_matrix.append(qr_row)
+        qr_matrix.append(qr_row)
+    for i in range(0,10):
+        qr_matrix.append([0] * (5*len(str_split[0]) + 20))
     qr_matrix_np = 255 - (numpy.array(qr_matrix, dtype=numpy.uint8) * 255)
     qr_img = Image.fromarray(qr_matrix_np)
     decoded = pyzbar.decode(qr_img)
@@ -62,7 +64,7 @@ for version in range(1,41):
             if os.name == "nt":
                 os.system("type test.txt | qrgen.exe >nul")
             else:
-                os.system("cat test.txt | ./qrgen.bin >nul")
+                os.system("cat test.txt | ./qrgen.bin >/dev/null")
             result = decode_qr(open("qrcode.txt").read())
             if result != test_str:
                 print("测试时出错，实际结果为", result, "，预期结果为", test_str)
