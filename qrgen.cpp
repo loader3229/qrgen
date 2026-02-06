@@ -308,21 +308,9 @@ int main(){
             alignmentPos[2]=((version-2)/3)*4+8;
             alignmentPos[3]=((version-2)/3)*2+version*2+8;
         }
-        if(version>=21 && version<=27){
-            int j = (version/2)*2+2;
-            for(int i=1;i<4;i++){
-                alignmentPos[i+1]=alignmentPos[i]-j;
-            }
-        }
-        if(version>=28 && version<=34){
-            int j = (version/3)*2+6;
-            for(int i=1;i<5;i++){
-                alignmentPos[i+1]=alignmentPos[i]-j;
-            }
-        }
-        if(version>=35){
-            int j = (version/3)*2+2;
-            for(int i=1;i<6;i++){
+        if(version>=21){
+            int j=(version/(version>=28?3:2))*2+(version>=35?2:version>=28?6:2);
+            for(int i=1;i<=version/7;i++){
                 alignmentPos[i+1]=alignmentPos[i]-j;
             }
         }
@@ -383,7 +371,7 @@ int main(){
         cout<<"字符的数量超限"<<endl; 
         return 1;
     }
-    // Data Codewords
+    // Data Codewords, use Byte Mode
     int l=0;
     d[l++]=0;
     d[l++]=1;
