@@ -301,18 +301,8 @@ int main(){
     if(version>=2){
         alignmentPos[0]=4;
         alignmentPos[1]=size-9;
-        if(version>=7 && version<=13){
-            alignmentPos[2]=(size-4)/2;
-        }
-        if(version>=14 && version<=20){
-            alignmentPos[2]=((version-2)/3)*4+8;
-            alignmentPos[3]=((version-2)/3)*2+version*2+8;
-        }
-        if(version>=21){
-            int j=(version/(version>=28?3:2))*2+(version>=35?2:version>=28?6:2);
-            for(int i=1;i<=version/7;i++){
-                alignmentPos[i+1]=alignmentPos[i]-j;
-            }
+        for(int i=1;i<=version/7;i++){
+            alignmentPos[i+1]=alignmentPos[i]-((version*(version>=21?1:version>=14?2:3)+(version>=35?3:version>=28?9:version>=21?2:4))/(version>=28?3:version>=21?2:3))*2;
         }
         for(int i=0;alignmentPos[i];i++){
             for(int j=0;alignmentPos[j];j++){

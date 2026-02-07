@@ -25,16 +25,10 @@ def decode_qr(str):
         i = "00" + i + "00"
         qr_row = []
         for j in i:
-            qr_row.append(int(j))
-            qr_row.append(int(j))
-            qr_row.append(int(j))
-            qr_row.append(int(j))
-            qr_row.append(int(j))
-        qr_matrix.append(qr_row)
-        qr_matrix.append(qr_row)
-        qr_matrix.append(qr_row)
-        qr_matrix.append(qr_row)
-        qr_matrix.append(qr_row)
+            for k in range(0,5):
+                qr_row.append(int(j))
+        for k in range(0,5):
+            qr_matrix.append(qr_row)
     for i in range(0,10):
         qr_matrix.append([0] * (5*len(str_split[0]) + 20))
     qr_matrix_np = 255 - (numpy.array(qr_matrix, dtype=numpy.uint8) * 255)
@@ -55,6 +49,7 @@ for version in range(1,41):
         for i in range(0,3+version//10):
             test_str = randomString((2*version-1)*(4*i+2))
             print("正在测试版本", version, "掩码", mask, "字符串长度", len(test_str))
+            sys.stdout.flush()
             testfile = open("test.txt","w")
             testfile.write("2\n")
             testfile.write(str(version) + "\n")
